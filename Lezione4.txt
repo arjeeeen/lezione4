@@ -1,0 +1,63 @@
+###################################################################
+#Lezione	:           4                                                                                   
+#Descrizione	:  Creazione di una rete di calcolatori                                                                                                                                                                       
+#Autore       	:      Arjen Van Zwam                                                                                        
+###################################################################
+
+"Spiegare, con una relazione, cosa succede quando un dispositivo invia un 
+pacchetto ad un altro dispositivo di un'altra rete."
+
+Quando un dispositivo, come può essere un computer, invia un pacchetto ad
+un altro dispositivo significa che il pacchetto verrà prima inviato 
+al router che controllerà la sua routing table per controllare  
+verso quale interfaccia inviare il pacchetto desiderato.
+Utilizzerà il modello ISO/OSI che è strutturato 
+in 7 diversi layers (4 Host layers + 3 Media Layers).
+
+Il pacchetto sarà strutturato così:
+Indirizzo IP del destinatario 
+Il MAC address del router come destinazione nell’header del frame
+Il proprio indirizzo IP come sorgente nell’header del datagramma
+Il proprio indirizzo MAC come sorgente nell’header del frame
+
+Una volta che il primo "next Hop" è avvenuto (ossia il dispositivo successivo, 
+in questo caso il router) il router imposterà:
+Indirizzo MAC di destinazione
+Indirizzo MAC sorgente della propria interfaccia di riferimento
+
+Bisogna però ricordarsi che potrebbero verificarsi perdite di dati e non arrivare 
+completamente al destinatario. Esiste quindi un controllo sul canale di comunicazione:
+three-way-handshake (nel protocollo TCP il quale garantisce la consegna)
+Il three-way-handshake è strutturato in questo modo:
+1) Il client che inizia la connessione invia un pacchetto TCP al server 
+destinatario ed un numero di sequenza casuale 
+2) Il server risponde inviando al client un pacchetto con i flag SYN e ACK abilitati,
+e un altro numero di sequenza (Seq) casuale. 
+L’Ack sarà uguale al precedente 
+Seq sarà +1 (per confermare al client la corretta ricezione)
+3) Il client completa la sincronizzazione inviando un pacchetto ACK, 
+ inviando i numeri Seq, Ack, come fatto prima dal server.
+
+
+###################################################################
+
+
+"Mostrare qualitativamente (non inserite i valori) come cambiano 
+«source MAC e destination MAC» e «source IP & destination IP» 
+quando un pacchetto viene inviato dal Laptop-PT-Laptop0 verso Laptop-PT-Laptop2."
+
+Punto di partenza: (primo "Next Hop") 
+Source MAC = Laptop-PT-Laptop0
+Destination MAC = Interface Switch1 della rete del Laptop0
+Secondo Hop:
+Source MAC = Interface Switch1 della rete del Laptop0
+Destination MAC = Router Interface
+Terzo Hop:
+Source MAC = Router Interface
+Destination MAC = Interface Switch2 della rete del Laptop2
+Ultimo Hop:
+Source MAC = Interface Switch2 della rete del Laptop2
+Destination MAC = Laptop-PT-Laptop2
+
+I source IP saranno gli stessi del Laptop0 finchè i "next hop" saranno 
+diretti al Laptop2
